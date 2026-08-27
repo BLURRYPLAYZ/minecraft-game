@@ -1,151 +1,367 @@
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
 
-html,
-body {
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    font-family: Arial, sans-serif;
-    background: #87ceeb;
-}
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-body {
-    user-select: none;
-}
+    <title>BlockWorld V2</title>
 
-/* Game canvas */
-canvas {
-    display: block;
-    width: 100%;
-    height: 100%;
-}
+    <link rel="stylesheet" href="style.css">
+</head>
 
-/* Crosshair */
-#crosshair {
-    position: fixed;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
+<body>
 
-    color: white;
-    font-size: 28px;
-    font-weight: bold;
+    <!-- =========================
+         START SCREEN
+    ========================== -->
 
-    text-shadow:
-        1px 1px 2px black,
-        -1px -1px 2px black;
+    <div id="startScreen">
 
-    pointer-events: none;
-    z-index: 10;
-}
+        <div class="logo">
+            BLOCK<span>WORLD</span>
+        </div>
 
-/* Hotbar */
-#hotbar {
-    position: fixed;
-    left: 50%;
-    bottom: 20px;
+        <div class="subtitle">
+            A Minecraft-inspired browser adventure
+        </div>
 
-    transform: translateX(-50%);
+        <button id="startButton">
+            PLAY WORLD
+        </button>
 
-    display: flex;
-    gap: 5px;
+        <div class="hint">
+            Click PLAY WORLD to begin
+        </div>
 
-    padding: 6px;
+    </div>
 
-    background: rgba(0, 0, 0, 0.55);
-    border: 3px solid rgba(255, 255, 255, 0.35);
 
-    border-radius: 5px;
+    <!-- =========================
+         LOADING SCREEN
+    ========================== -->
 
-    z-index: 20;
-}
+    <div id="loading">
 
-/* Hotbar slots */
-.slot {
-    width: 55px;
-    height: 55px;
+        <div class="loading-title">
+            GENERATING WORLD
+        </div>
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+        <div class="loading-bar">
+            <div id="loadingProgress"></div>
+        </div>
 
-    font-size: 30px;
+    </div>
 
-    background: rgba(100, 100, 100, 0.65);
 
-    border: 3px solid rgba(255, 255, 255, 0.25);
+    <!-- =========================
+         CROSSHAIR
+    ========================== -->
 
-    cursor: pointer;
+    <div id="crosshair"></div>
 
-    transition: 0.1s;
-}
 
-.slot:hover {
-    background: rgba(180, 180, 180, 0.7);
-}
+    <!-- =========================
+         TARGET INFORMATION
+    ========================== -->
 
-.slot.selected {
-    border: 3px solid white;
-    background: rgba(180, 180, 180, 0.8);
+    <div id="targetInfo"></div>
 
-    box-shadow:
-        0 0 0 2px black,
-        0 0 10px rgba(255, 255, 255, 0.8);
-}
 
-/* Instructions */
-#instructions {
-    position: fixed;
+    <!-- =========================
+         TOP HUD
+    ========================== -->
 
-    top: 20px;
-    left: 20px;
+    <div id="hud">
 
-    padding: 15px 20px;
+        <div id="coordinates">
+            XYZ: 0 / 0 / 0
+        </div>
 
-    color: white;
+        <div id="fps">
+            FPS: 0
+        </div>
 
-    background: rgba(0, 0, 0, 0.55);
+    </div>
 
-    border: 2px solid rgba(255, 255, 255, 0.25);
 
-    border-radius: 8px;
+    <!-- =========================
+         PLAYER STATUS
+    ========================== -->
 
-    line-height: 1.5;
+    <div id="status">
 
-    z-index: 20;
+        <div class="status-row">
 
-    text-shadow: 1px 1px 2px black;
+            <span class="status-label">
+                ❤️
+            </span>
 
-    pointer-events: none;
-}
+            <div class="bar health">
 
-#instructions b {
-    font-size: 22px;
-}
+                <div id="healthBar"></div>
 
-#instructions small {
-    opacity: 0.8;
-}
+            </div>
 
-/* Mobile prevention */
-@media (max-width: 600px) {
+        </div>
 
-    #instructions {
-        font-size: 12px;
-        padding: 10px;
-    }
 
-    #instructions b {
-        font-size: 16px;
-    }
+        <div class="status-row">
 
-    .slot {
-        width: 45px;
-        height: 45px;
-        font-size: 23px;
-    }
-}
+            <span class="status-label">
+                🍖
+            </span>
+
+            <div class="bar hunger">
+
+                <div id="hungerBar"></div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         HOTBAR
+    ========================== -->
+
+    <div id="hotbar">
+
+
+        <!-- SLOT 1 -->
+
+        <div
+            class="slot selected"
+            data-block="grass"
+        >
+
+            <span class="number">
+                1
+            </span>
+
+            <span class="icon">
+                🌿
+            </span>
+
+        </div>
+
+
+        <!-- SLOT 2 -->
+
+        <div
+            class="slot"
+            data-block="dirt"
+        >
+
+            <span class="number">
+                2
+            </span>
+
+            <span class="icon">
+                🟫
+            </span>
+
+        </div>
+
+
+        <!-- SLOT 3 -->
+
+        <div
+            class="slot"
+            data-block="stone"
+        >
+
+            <span class="number">
+                3
+            </span>
+
+            <span class="icon">
+                ⬜
+            </span>
+
+        </div>
+
+
+        <!-- SLOT 4 -->
+
+        <div
+            class="slot"
+            data-block="wood"
+        >
+
+            <span class="number">
+                4
+            </span>
+
+            <span class="icon">
+                🪵
+            </span>
+
+        </div>
+
+
+        <!-- SLOT 5 -->
+
+        <div
+            class="slot"
+            data-block="leaves"
+        >
+
+            <span class="number">
+                5
+            </span>
+
+            <span class="icon">
+                🌿
+            </span>
+
+        </div>
+
+
+        <!-- SLOT 6 -->
+
+        <div
+            class="slot"
+            data-block="sand"
+        >
+
+            <span class="number">
+                6
+            </span>
+
+            <span class="icon">
+                🟨
+            </span>
+
+        </div>
+
+
+        <!-- SLOT 7 -->
+
+        <div
+            class="slot"
+            data-block="glass"
+        >
+
+            <span class="number">
+                7
+            </span>
+
+            <span class="icon">
+                🔳
+            </span>
+
+        </div>
+
+
+        <!-- SLOT 8 -->
+
+        <div
+            class="slot"
+            data-block="brick"
+        >
+
+            <span class="number">
+                8
+            </span>
+
+            <span class="icon">
+                🧱
+            </span>
+
+        </div>
+
+
+        <!-- SLOT 9 -->
+
+        <div
+            class="slot"
+            data-block="snow"
+        >
+
+            <span class="number">
+                9
+            </span>
+
+            <span class="icon">
+                ❄️
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         CONTROLS
+    ========================== -->
+
+    <div id="controls">
+
+        <div class="controls-title">
+            BLOCKWORLD V2
+        </div>
+
+        <div>
+            <b>W A S D</b>
+            — Move
+        </div>
+
+        <div>
+            <b>SHIFT</b>
+            — Sprint
+        </div>
+
+        <div>
+            <b>SPACE</b>
+            — Jump
+        </div>
+
+        <div>
+            <b>MOUSE</b>
+            — Look
+        </div>
+
+        <div>
+            <b>LEFT CLICK</b>
+            — Break
+        </div>
+
+        <div>
+            <b>RIGHT CLICK</b>
+            — Place
+        </div>
+
+        <div>
+            <b>1–9</b>
+            — Select Block
+        </div>
+
+        <div>
+            <b>ESC</b>
+            — Release Mouse
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         THREE.JS
+    ========================== -->
+
+    <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+
+
+    <!-- =========================
+         GAME SCRIPT
+    ========================== -->
+
+    <script src="script.js"></script>
+
+</body>
+</html>
