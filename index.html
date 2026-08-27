@@ -3,35 +3,148 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BlockWorld</title>
+    <title>BlockWorld V2</title>
 
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-    <div id="crosshair">+</div>
+    <!-- Crosshair -->
+    <div id="crosshair"></div>
 
+    <!-- Block outline -->
+    <div id="targetInfo"></div>
+
+    <!-- Top HUD -->
+    <div id="hud">
+        <div id="coordinates">
+            XYZ: 0 / 0 / 0
+        </div>
+
+        <div id="fps">
+            FPS: 0
+        </div>
+    </div>
+
+    <!-- Status -->
+    <div id="status">
+
+        <div class="status-row">
+            <span class="status-label">❤️</span>
+            <div class="bar health">
+                <div id="healthBar"></div>
+            </div>
+        </div>
+
+        <div class="status-row">
+            <span class="status-label">🍖</span>
+            <div class="bar hunger">
+                <div id="hungerBar"></div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Hotbar -->
     <div id="hotbar">
-        <div class="slot selected" data-block="grass">🌿</div>
-        <div class="slot" data-block="dirt">🟫</div>
-        <div class="slot" data-block="stone">⬜</div>
-        <div class="slot" data-block="wood">🪵</div>
-        <div class="slot" data-block="leaves">🌿</div>
+
+        <div class="slot selected" data-block="grass">
+            <span class="number">1</span>
+            <span class="icon">🌿</span>
+        </div>
+
+        <div class="slot" data-block="dirt">
+            <span class="number">2</span>
+            <span class="icon">🟫</span>
+        </div>
+
+        <div class="slot" data-block="stone">
+            <span class="number">3</span>
+            <span class="icon">⬜</span>
+        </div>
+
+        <div class="slot" data-block="wood">
+            <span class="number">4</span>
+            <span class="icon">🪵</span>
+        </div>
+
+        <div class="slot" data-block="leaves">
+            <span class="number">5</span>
+            <span class="icon">🌿</span>
+        </div>
+
+        <div class="slot" data-block="sand">
+            <span class="number">6</span>
+            <span class="icon">🟨</span>
+        </div>
+
+        <div class="slot" data-block="glass">
+            <span class="number">7</span>
+            <span class="icon">🔳</span>
+        </div>
+
+        <div class="slot" data-block="brick">
+            <span class="number">8</span>
+            <span class="icon">🧱</span>
+        </div>
+
+        <div class="slot" data-block="snow">
+            <span class="number">9</span>
+            <span class="icon">⬜</span>
+        </div>
+
     </div>
 
-    <div id="instructions">
-        <b>BLOCKWORLD</b><br><br>
-        WASD — Move<br>
-        SPACE — Jump<br>
-        Mouse — Look<br>
-        Left Click — Break<br>
-        Right Click — Place<br>
-        1–5 — Select Block<br><br>
-        <small>Click the game to start</small>
+    <!-- Controls -->
+    <div id="controls">
+
+        <b>BLOCKWORLD V2</b>
+
+        <div>W A S D — Move</div>
+        <div>SHIFT — Sprint</div>
+        <div>SPACE — Jump</div>
+        <div>MOUSE — Look</div>
+        <div>LEFT CLICK — Break</div>
+        <div>RIGHT CLICK — Place</div>
+        <div>1–9 — Select Block</div>
+        <div>ESC — Release Mouse</div>
+
     </div>
 
+    <!-- Loading -->
+    <div id="loading">
+        <div class="loading-title">GENERATING WORLD</div>
+        <div class="loading-bar">
+            <div id="loadingProgress"></div>
+        </div>
+    </div>
+
+    <!-- Start screen -->
+    <div id="startScreen">
+
+        <div class="logo">
+            BLOCK<span>WORLD</span>
+        </div>
+
+        <div class="subtitle">
+            A Minecraft-inspired browser adventure
+        </div>
+
+        <button id="startButton">
+            PLAY WORLD
+        </button>
+
+        <div class="hint">
+            Click PLAY WORLD to begin
+        </div>
+
+    </div>
+
+    <!-- Three.js -->
     <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+
+    <!-- Game -->
     <script src="script.js"></script>
 
 </body>
